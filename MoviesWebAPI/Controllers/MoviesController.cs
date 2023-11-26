@@ -21,7 +21,7 @@ namespace MoviesWebAPI.Controllers
         }
 
         /// <summary>
-        /// Add a movie to the database
+        /// Adds a new movie to the database.
         /// </summary>
         /// <param name="movieDTO">Object with the required field to create a new movie</param>
         /// <returns>IActionResult</returns>
@@ -38,7 +38,7 @@ namespace MoviesWebAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve a paginated list of movies from the database.
+        /// Returns the list of all movies with pagination.
         /// </summary>
         /// <param name="skip">Integer value indicating how many elements will be skipped.</param>
         /// <param name="take">Integer value indicating how many elements will be taken.</param>
@@ -50,7 +50,7 @@ namespace MoviesWebAPI.Controllers
             => _mapper.Map<IEnumerable<ReadMovieDTO>>(_context.Movies.Skip(skip).Take(take));
 
         /// <summary>
-        /// Retrieve a movie by id from the database.
+        /// Returns details of a specific movie.
         /// </summary>
         /// <param name="id">Unique identifier of the movie in the database</param>
         /// <returns>IActionResult</returns>
@@ -69,7 +69,7 @@ namespace MoviesWebAPI.Controllers
         }
 
         /// <summary>
-        /// Update an existing movie in the database.
+        /// Updates an existing movie.
         /// </summary>
         /// <param name="id">Unique identifier of the movie in the database</param>
         /// <param name="movieDTO">Object with the required field to update a movie</param>
@@ -89,7 +89,7 @@ namespace MoviesWebAPI.Controllers
         }
 
         /// <summary>
-        /// Partially update an existing movie in the database.
+        /// Updates details of an existing movie.
         /// </summary>
         /// <param name="id">Unique identifier of the movie in the database</param>
         /// <param name="patch">Object with the field(s) to update a movie</param>
@@ -116,7 +116,7 @@ namespace MoviesWebAPI.Controllers
         }
 
         /// <summary>
-        /// Remove an existing movie in the database.
+        /// Removes a movie from the database.
         /// </summary>
         /// <param name="id">Unique identifier of the movie in the database</param>
         /// <returns>IActionResult</returns>
