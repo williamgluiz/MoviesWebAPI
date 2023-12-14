@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesWebAPI.Data;
 
@@ -10,9 +11,11 @@ using MoviesWebAPI.Data;
 namespace MoviesWebAPI.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    partial class MovieContextModelSnapshot : ModelSnapshot
+    [Migration("20231213094111_Session and Movie Theater")]
+    partial class SessionandMovieTheater
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,13 +89,19 @@ namespace MoviesWebAPI.Migrations
 
             modelBuilder.Entity("MoviesWebAPI.Models.Session", b =>
                 {
-                    b.Property<int?>("MovieId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<int?>("MovieTheaterId")
                         .HasColumnType("int");
 
-                    b.HasKey("MovieId", "MovieTheaterId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.HasIndex("MovieTheaterId");
 
@@ -104,7 +113,7 @@ namespace MoviesWebAPI.Migrations
                     b.HasOne("MoviesWebAPI.Models.Address", "Address")
                         .WithOne("MovieTheater")
                         .HasForeignKey("MoviesWebAPI.Models.MovieTheater", "AddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Address");
@@ -120,9 +129,7 @@ namespace MoviesWebAPI.Migrations
 
                     b.HasOne("MoviesWebAPI.Models.MovieTheater", "MovieTheater")
                         .WithMany("Sessions")
-                        .HasForeignKey("MovieTheaterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MovieTheaterId");
 
                     b.Navigation("Movie");
 

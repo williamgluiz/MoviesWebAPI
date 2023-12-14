@@ -28,7 +28,7 @@ namespace MoviesWebAPI.Controllers
         /// <response code="201">If the insertion is successful.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddMovies([FromBody] CreateMovieDTO movieDTO)
+        public IActionResult AddMovie([FromBody] CreateMovieDTO movieDTO)
         {
             Movie movie = _mapper.Map<Movie>(movieDTO);
 
@@ -42,12 +42,17 @@ namespace MoviesWebAPI.Controllers
         /// </summary>
         /// <param name="skip">Integer value indicating how many elements will be skipped.</param>
         /// <param name="take">Integer value indicating how many elements will be taken.</param>
-        /// <returns>IActionResult</returns>
+        /// <returns>ReadMovieDTO</returns>
         /// <response code="200">If the request is successful.</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IEnumerable<ReadMovieDTO> GetMovies([FromQuery] int skip = 0, [FromQuery] int take = 50) 
-            => _mapper.Map<IEnumerable<ReadMovieDTO>>(_context.Movies.Skip(skip).Take(take));
+        public IEnumerable<ReadMovieDTO> GetMovies([FromQuery] int skip = 0, [FromQuery] int take = 50, [FromQuery] string? movieTheaterName = null)
+        {
+            if(movieTheaterName == null) 
+                return _mapper.Map<IEnumerable<ReadMovieDTO>>(_context.Movies.Skip(skip).Take(take).ToList());
+            
+            return _mapper.Map<List<ReadMovieDTO>>(_context.Movies.Skip(skip).Take(take).Where(movie => movie.Sessions.Any(session => session.MovieTheater.Name == movieTheaterName)).ToList());
+        }
 
         /// <summary>
         /// Returns details of a specific movie.
